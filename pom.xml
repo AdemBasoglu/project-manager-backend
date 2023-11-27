@@ -10,7 +10,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>be.intecbrusse</groupId>
+    <groupId>be.intecbrussel</groupId>
     <artifactId>project-manager-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>project-manager-backend</name>
@@ -40,7 +40,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
         <!--VALIDATION-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
