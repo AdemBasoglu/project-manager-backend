@@ -1,4 +1,4 @@
-package be.intecbrusse.projectmanagerbackend;
+package be.intecbrussel.projectmanagerbackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

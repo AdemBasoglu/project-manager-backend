@@ -1,4 +1,4 @@
-package be.intecbrusse.projectmanagerbackend;
+package be.intecbrussel.projectmanagerbackend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
