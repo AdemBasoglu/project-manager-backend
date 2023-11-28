@@ -1,6 +1,7 @@
 package be.intecbrussel.projectmanagerbackend.services.impl;
 
 import be.intecbrussel.projectmanagerbackend.models.Board;
+import be.intecbrussel.projectmanagerbackend.models.Project;
 import be.intecbrussel.projectmanagerbackend.repositories.BoardRepository;
 import be.intecbrussel.projectmanagerbackend.services.BoardService;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,11 @@ public class BoardServiceImpl implements BoardService {
 
 
     @Override
-    public void addBoard(Board board) {
-        Board newBoard = new Board(board.getName(), board.getProject());
-        boardRepository.save(newBoard);
+    public Board addBoard(String name, Long projectId) {
+        final var project = projectService.getProjectById(projectId);
+        Board board = new Board(name, project);
+        return boardRepository.save(board);
+
 
     }
 

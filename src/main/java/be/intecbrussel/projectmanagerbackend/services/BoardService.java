@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BoardService {
 
-    public void addBoard(Board board);
+    public Board addBoard(String name, Long projectId);
 
     Board getBoardById(Long id);
 
