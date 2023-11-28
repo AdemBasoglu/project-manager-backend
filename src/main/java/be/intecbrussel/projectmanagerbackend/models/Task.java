@@ -29,11 +29,11 @@ public class Task {
     protected Task() {
     }
 
-    public Task(String name, String description, TaskLabel label, Board board) {
+    public Task(String name, String description, Board board) {
         this.name = name;
         this.description = description;
         this.createdDate = LocalDate.now();
-        this.label = label;
+        this.label = TaskLabel.DEFAULT;
         this.board = board;
         this.users = new HashSet<>();
     }
@@ -41,7 +41,7 @@ public class Task {
     public Long getId() {
         return id;
     }
-    
+
     public String getName() {
         return name;
     }
