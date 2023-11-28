@@ -14,20 +14,20 @@ import java.util.List;
 @Service
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
-    private final BoardService boardService;
+    private final BoardServiceImpl boardService;
 
     @Autowired
-    public TaskServiceImpl(TaskRepository taskRepository, BoardService boardService) {
+    public TaskServiceImpl(TaskRepository taskRepository, BoardServiceImpl boardService) {
         this.taskRepository = taskRepository;
         this.boardService = boardService;
     }
 
     @Override
     public Task addTask(TaskDto taskDto, Long boardID) {
-        Board board = boardService.getBoard(boardID);
+        Board board = boardService.getBoardById(boardID);
         return null;
     }
-
+]
     @Override
     public Task getTask() {
         return null;
