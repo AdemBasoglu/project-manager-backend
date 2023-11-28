@@ -1,6 +1,6 @@
 package be.intecbrussel.projectmanagerbackend.services.impl;
 
-import be.intecbrussel.projectmanagerbackend.exceptions.ProjectException;
+import be.intecbrussel.projectmanagerbackend.exceptions.DataNotFoundException;
 import be.intecbrussel.projectmanagerbackend.models.Project;
 import be.intecbrussel.projectmanagerbackend.repositories.ProjectRepository;
 import be.intecbrussel.projectmanagerbackend.services.ProjectService;
@@ -26,7 +26,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project getProjectById(long id) {
         return projectRepository.findById(id).orElseThrow(() ->
-                new ProjectException("Project not found with id  : " + id));
+                new DataNotFoundException( "project","id","id"));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project updateProject(Project project, long id) {
         Project foundProject= projectRepository
-                .findById(id).orElseThrow(()-> new ProjectException("Product not found with id :"+id));
+                .findById(id).orElseThrow(()-> new DataNotFoundException( "project","id","id"));
         foundProject.setName(project.getName());
         foundProject.setUser(project.getUser());
         foundProject.setBoards(project.getBoards());
