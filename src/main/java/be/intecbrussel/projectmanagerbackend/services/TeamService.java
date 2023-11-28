@@ -1,4 +1,4 @@
-package be.intecbrussel.projectmanagerbackend.services;
-
-public interface TeamService {
-}
+// package be.intecbrussel.projectmanagerbackend.services;
+//
+// public interface TeamService {
+// }
