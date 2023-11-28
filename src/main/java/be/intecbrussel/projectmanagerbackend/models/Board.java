@@ -3,6 +3,7 @@ package be.intecbrussel.projectmanagerbackend.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,4 +23,40 @@ public class Board {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "board")
     private List<Task> task;
 
+    protected Board() {
+    }
+
+    public Board(String name, Project project) {
+        this.name = name;
+        this.project = project;
+        this.task = new ArrayList<>();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public List<Task> getTask() {
+        return task;
+    }
+
+    public void setTask(List<Task> task) {
+        this.task = task;
+    }
 }
