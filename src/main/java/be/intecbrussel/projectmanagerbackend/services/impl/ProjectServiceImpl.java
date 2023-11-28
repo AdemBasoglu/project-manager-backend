@@ -7,6 +7,8 @@ import be.intecbrussel.projectmanagerbackend.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -25,5 +27,26 @@ public class ProjectServiceImpl implements ProjectService {
     public Project getProjectById(long id) {
         return projectRepository.findById(id).orElseThrow(() ->
                 new ProjectException("Project not found with id  : " + id));
+    }
+
+    @Override
+    public List<Project> getAllProject() {
+        return projectRepository.findAll();
+    }
+
+    @Override
+    public Project updateProject(Project project, long id) {
+        Project foundProject= projectRepository
+                .findById(id).orElseThrow(()-> new ProjectException("Product not found with id :"+id));
+        foundProject.setName(project.getName());
+        foundProject.setUser(project.getUser());
+        foundProject.setBoards(project.getBoards());
+
+        return projectRepository.save(foundProject);
+    }
+
+    @Override
+    public void deleteProject(long id) {
+        projectRepository.deleteById(id);
     }
 }
