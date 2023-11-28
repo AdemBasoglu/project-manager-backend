@@ -1,5 +1,6 @@
 package be.intecbrussel.projectmanagerbackend.services.impl;
 
+import be.intecbrussel.projectmanagerbackend.exceptions.DataNotFoundException;
 import be.intecbrussel.projectmanagerbackend.models.Board;
 import be.intecbrussel.projectmanagerbackend.models.Project;
 import be.intecbrussel.projectmanagerbackend.repositories.BoardRepository;
@@ -34,7 +35,9 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Board getBoardById(Long id) {
-        return null;
+        Board foundboard = boardRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("board","id",id.toString()));
+        return foundboard;
     }
 
     @Override
