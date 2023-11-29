@@ -1,6 +1,7 @@
 package be.intecbrussel.projectmanagerbackend.models;
 
 import be.intecbrussel.projectmanagerbackend.models.enums.TaskLabel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -24,7 +25,7 @@ public class Task {
     @ManyToOne
     private Board board;
 
-    @JsonIgnoreProperties("tasks")
+    @JsonIgnore
     @ManyToMany(mappedBy = "tasks", cascade = {CascadeType.REMOVE})
     private Set<User> users;
 

@@ -6,19 +6,14 @@ import java.util.List;
 
 public interface BoardService {
 
-    public Board addBoard(String name, Long projectId);
+    Board addBoard(String name, Long boardId);
 
-    Board getBoardById(Long id);
-
-    Board updateBoard(Board board,long projectId);
-
-    void deleteBoard(Long id);
+    Board getBoard(Long boardId);
 
     List<Board> getAllBoardsByProject(Long projectId);
 
+    Board updateBoard(Board board, Long boardId);
 
-
-
-
+    void deleteBoard(Long id);
 
 }

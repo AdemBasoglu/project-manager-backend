@@ -20,46 +20,46 @@ public class TaskController {
 
     @PostMapping("/add")
     public ResponseEntity<Task> addTask(
-            @RequestBody TaskDto taskDto, @RequestParam("boardID") Long boardID) {
-        Task task = taskService.addTask(taskDto, boardID);
+            @RequestBody TaskDto taskDto, @RequestParam("boardId") Long boardId) {
+        Task task = taskService.addTask(taskDto, boardId);
 
         return ResponseEntity.ok(task);
     }
 
 
-    @GetMapping("/get/{taskID}")
-    public ResponseEntity<Task> getTask(@PathVariable("taskID") Long taskID) {
-        Task task = taskService.getTask(taskID);
+    @GetMapping("/get/{taskId}")
+    public ResponseEntity<Task> getTask(@PathVariable("taskId") Long taskId) {
+        Task task = taskService.getTask(taskId);
 
         return ResponseEntity.ok(task);
     }
 
-    @PutMapping("update/{taskID}")
+    @PutMapping("update/{taskId}")
     public ResponseEntity<Task> updateTask(
             @RequestBody Task task,
-            @PathVariable("taskID") Long taskID
+            @PathVariable("taskId") Long taskId
     ) {
-        Task updatedTask = taskService.updateTask(task, taskID);
+        Task updatedTask = taskService.updateTask(task, taskId);
 
         return ResponseEntity.ok(updatedTask);
     }
 
     @PutMapping("/add-user")
     public ResponseEntity<Task> addUserToTask(
-            @RequestParam("taskID") Long taskID,
+            @RequestParam("taskId") Long taskId,
             @RequestParam("email") String email) {
-        Task task = taskService.addUserToTask(taskID, email);
+        Task task = taskService.addUserToTask(taskId, email);
 
         return ResponseEntity.ok(task);
     }
 
-    @DeleteMapping("delete/{taskID}")
-    public void deleteTask(@PathVariable("taskID") Long taskID) {
-        taskService.deleteTask(taskID);
+    @DeleteMapping("delete/{taskId}")
+    public void deleteTask(@PathVariable("taskId") Long taskId) {
+        taskService.deleteTask(taskId);
     }
 
-    @DeleteMapping("delete-by-board/{boardID}")
-    public void deleteTaskByBoard(@PathVariable("boardID") Long boardID) {
-        taskService.deleteAllByBoardId(boardID);
+    @DeleteMapping("delete-by-board/{boardId}")
+    public void deleteTaskByBoard(@PathVariable("boardId") Long boardId) {
+        taskService.deleteAllByBoardId(boardId);
     }
 }

@@ -1,8 +1,8 @@
 package be.intecbrussel.projectmanagerbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class Board {
     private Project project;
 
     // NOTE - Bidirectional declarations can be redundant
-    @JsonIgnoreProperties("board")
+    @JsonIgnore
     @Transient
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<Task> task;

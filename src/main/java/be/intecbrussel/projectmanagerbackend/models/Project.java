@@ -1,11 +1,10 @@
 package be.intecbrussel.projectmanagerbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,7 +15,7 @@ public class Project {
 
     private String name;
 
-    @JsonIgnoreProperties("projects")
+    @JsonIgnore
     @ManyToMany(mappedBy = "projects")
     private Set<User> users;
 

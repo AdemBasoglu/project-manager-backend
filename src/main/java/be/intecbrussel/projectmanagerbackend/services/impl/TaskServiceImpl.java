@@ -29,17 +29,17 @@ public class TaskServiceImpl implements TaskService {
 
 
     @Override
-    public Task addTask(TaskDto taskDto, Long boardID) {
-        Board foundBoard = boardService.getBoardById(boardID);
+    public Task addTask(TaskDto taskDto, Long boardId) {
+        Board foundBoard = boardService.getBoard(boardId);
         Task task = new Task(taskDto.name(), taskDto.description(), foundBoard);
 
         return taskRepository.save(task);
     }
 
     @Override
-    public Task getTask(Long taskID) {
-        return taskRepository.findById(taskID).orElseThrow(
-                () -> new DataNotFoundException("Task", "ID", taskID.toString()));
+    public Task getTask(Long taskId) {
+        return taskRepository.findById(taskId).orElseThrow(
+                () -> new DataNotFoundException("Task", "Id", taskId.toString()));
     }
 
     @Override
@@ -53,9 +53,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task updateTask(Task task, Long taskID) {
-        Task foundTask = taskRepository.findById(taskID).orElseThrow(
-                () -> new DataNotFoundException("Task", "ID", taskID.toString()));
+    public Task updateTask(Task task, Long taskId) {
+        Task foundTask = taskRepository.findById(taskId).orElseThrow(
+                () -> new DataNotFoundException("Task", "Id", taskId.toString()));
 
         foundTask.setName(task.getName());
         foundTask.setBoard(task.getBoard());
@@ -71,28 +71,28 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task addUserToTask(Long taskID, String email) {
-        Task foundTask = taskRepository.findById(taskID).orElseThrow(
-                () -> new DataNotFoundException("Task", "ID", taskID.toString()));
+    public Task addUserToTask(Long taskId, String email) {
+        Task foundTask = taskRepository.findById(taskId).orElseThrow(
+                () -> new DataNotFoundException("Task", "Id", taskId.toString()));
 
-        User foundUser = userService.findByEmail(email);
+        User foundUser = userService.getUser(email);
         foundUser.getTasks().add(foundTask);
 
         return null;
     }
 
     @Override
-    public Task changeBoard(Long boardID) {
+    public Task changeBoard(Long boardId) {
         return null;
     }
 
     @Override
-    public void deleteTask(Long taskID) {
-        taskRepository.deleteById(taskID);
+    public void deleteTask(Long taskId) {
+        taskRepository.deleteById(taskId);
     }
 
     @Override
-    public void deleteAllByBoardId(Long boardID) {
-        taskRepository.deleteAllByBoardId(boardID);
+    public void deleteAllByBoardId(Long boardId) {
+        taskRepository.deleteAllByBoardId(boardId);
     }
 }
