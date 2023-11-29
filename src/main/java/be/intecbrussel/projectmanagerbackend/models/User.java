@@ -1,5 +1,6 @@
 package be.intecbrussel.projectmanagerbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -14,9 +15,11 @@ public class User {
     private String firstName;
     private String lastName;
 
-    @OneToOne
-    private Project project;
+    @JsonIgnoreProperties("users")
+    @ManyToMany
+    private Set<Project> projects;
 
+    @JsonIgnoreProperties("users")
     @ManyToMany
     private Set<Task> tasks;
 
@@ -28,8 +31,8 @@ public class User {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.project = project;
         this.tasks = new HashSet<>();
+        this.projects = new HashSet<>();
     }
 
     public String getEmail() {
@@ -60,12 +63,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Project getProject() {
-        return project;
+    public Set<Project> getProjects() {
+        return projects;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
     }
 
     public Set<Task> getTasks() {
