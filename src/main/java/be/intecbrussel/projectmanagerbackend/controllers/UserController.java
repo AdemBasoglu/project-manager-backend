@@ -44,4 +44,9 @@ public class UserController {
     }
 
 
+    //PathVariable = 2 dingen in de URL
+    //RequestBody = kopieren en plakken in de body
+    // search?= zoeken naar de letter in het woord
+
+
 }

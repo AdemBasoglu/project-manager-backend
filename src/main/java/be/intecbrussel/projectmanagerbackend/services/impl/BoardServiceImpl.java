@@ -41,9 +41,15 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Board updateBoard(Board board) {
-        return null;
+    public Board updateBoard(Board board, long boardId) {
+        Board foundBoard = boardRepository
+                .findById(boardId)
+                .orElseThrow(() -> new DataNotFoundException("board", "id", board.getId().toString()));
+        foundBoard.setName(board.getName());
+        return boardRepository.save(foundBoard);
+
     }
+
 
     @Override
     public void deleteBoard(Long id) {
