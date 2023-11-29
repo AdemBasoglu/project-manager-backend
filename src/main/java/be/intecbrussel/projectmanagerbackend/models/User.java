@@ -63,13 +63,13 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Set<Project> getProjects() {
-        return projects;
-    }
-
-    public void setProjects(Set<Project> projects) {
-        this.projects = projects;
-    }
+    // public Set<Project> getProjects() {
+    //     return projects;
+    // }
+    //
+    // public void setProjects(Set<Project> projects) {
+    //     this.projects = projects;
+    // }
 
     public Set<Task> getTasks() {
         return tasks;

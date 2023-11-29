@@ -42,7 +42,8 @@ public class ProjectServiceImpl implements ProjectService {
         foundProject.setName(project.getName());
         foundProject.setUsers(project.getUsers());
 
-       // foundProject.setBoards(project.getBoards());
+        // foundProject.setBoards(project.getBoards());
+
 
         return projectRepository.save(foundProject);
     }
