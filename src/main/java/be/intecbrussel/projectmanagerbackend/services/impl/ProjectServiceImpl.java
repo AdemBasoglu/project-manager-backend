@@ -18,6 +18,7 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectServiceImpl(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
+
     @Override
     public Project addProject(Project project) {
         return projectRepository.save(project);
@@ -26,7 +27,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project getProjectById(long id) {
         return projectRepository.findById(id).orElseThrow(() ->
-                new DataNotFoundException( "project","id","id"));
+                new DataNotFoundException("project", "id", "id"));
     }
 
     @Override
@@ -36,10 +37,10 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project updateProject(Project project, long id) {
-        Project foundProject= projectRepository
-                .findById(id).orElseThrow(()-> new DataNotFoundException( "project","id","id"));
+        Project foundProject = projectRepository
+                .findById(id).orElseThrow(() -> new DataNotFoundException("project", "id", "id"));
         foundProject.setName(project.getName());
-        foundProject.setUser(project.getUser());
+        foundProject.setUsers(project.getUsers());
         foundProject.setBoards(project.getBoards());
 
         return projectRepository.save(foundProject);

@@ -27,7 +27,7 @@ public class TaskServiceImpl implements TaskService {
         Board board = boardService.getBoardById(boardID);
         return null;
     }
-]
+
     @Override
     public Task getTask() {
         return null;

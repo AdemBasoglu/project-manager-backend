@@ -12,14 +12,14 @@ import java.util.List;
 @Service
 public class BoardServiceImpl implements BoardService {
 
-    private  final BoardRepository boardRepository;
+    private final BoardRepository boardRepository;
 
-    private TaskServiceImpl taskService;
+
     private ProjectServiceImpl projectService;
 
-    public BoardServiceImpl(BoardRepository boardRepository, TaskServiceImpl taskService, UserServiceImpl userService, ProjectServiceImpl projectService) {
+    public BoardServiceImpl(BoardRepository boardRepository, ProjectServiceImpl projectService) {
         this.boardRepository = boardRepository;
-        this.taskService = taskService;
+
         this.projectService = projectService;
     }
 
@@ -36,7 +36,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Board getBoardById(Long id) {
         Board foundboard = boardRepository.findById(id)
-                .orElseThrow(() -> new DataNotFoundException("board","id",id.toString()));
+                .orElseThrow(() -> new DataNotFoundException("board", "id", id.toString()));
         return foundboard;
     }
 
