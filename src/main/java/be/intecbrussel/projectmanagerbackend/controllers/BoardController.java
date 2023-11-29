@@ -19,8 +19,18 @@ public class BoardController {
 
     @PostMapping("/add")
     public ResponseEntity<Board> addBoard(
-            @RequestParam("boardName")String name,
+            @RequestParam("boardName") String name,
             @RequestParam("projectID") Long projectId) {
+        Board board = boardService.addBoard(name, projectId);
+        return new ResponseEntity<>(board, HttpStatus.CREATED);
+
+    }
+
+
+    @PostMapping("/add-path/board{boardName}/project/{projectID}")
+    public ResponseEntity<Board> addBoardPath(
+            @PathVariable("boardName") String name,
+            @PathVariable("projectID") Long projectId) {
         Board board = boardService.addBoard(name, projectId);
         return new ResponseEntity<>(board, HttpStatus.CREATED);
 
@@ -30,5 +40,5 @@ public class BoardController {
     public ResponseEntity<Board> getBoardById(@PathVariable Long id) {
         Board foundBoard = boardService.getBoardById(id);
         return new ResponseEntity<>(foundBoard, HttpStatus.OK);
-}
+    }
 }
