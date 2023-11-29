@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -30,6 +31,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task addTask(TaskDto taskDto, Long boardId) {
+
         Board foundBoard = boardService.getBoard(boardId);
         Task task = new Task(taskDto.name(), taskDto.description(), foundBoard);
 
@@ -72,13 +74,14 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task addUserToTask(Long taskId, String email) {
-        Task foundTask = taskRepository.findById(taskId).orElseThrow(
-                () -> new DataNotFoundException("Task", "Id", taskId.toString()));
+        Task foundTask = taskRepository.findById(taskId)
+                .orElseThrow(() -> new DataNotFoundException("Task", "Id", taskId.toString()));
 
         User foundUser = userService.getUser(email);
         foundUser.getTasks().add(foundTask);
+        foundTask.getUsers().add(foundUser);
 
-        return null;
+        return foundTask;
     }
 
     @Override
@@ -88,6 +91,13 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void deleteTask(Long taskId) {
+        Task task = getTask(taskId);
+        Set<User> users = task.getUsers();
+
+        for (User user : users) {
+            user.getTasks().remove(task);
+        }
+
         taskRepository.deleteById(taskId);
     }
 

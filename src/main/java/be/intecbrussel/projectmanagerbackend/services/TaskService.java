@@ -18,7 +18,6 @@ public interface TaskService {
 
     Task addUserToTask(Long taskId, String email);
 
-
     Task changeBoard(Long boardId);
 
     void deleteTask(Long taskId);

@@ -26,7 +26,7 @@ public class Task {
     private Board board;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "tasks", cascade = {CascadeType.REMOVE})
+    @ManyToMany(mappedBy = "tasks")
     private Set<User> users;
 
     protected Task() {
