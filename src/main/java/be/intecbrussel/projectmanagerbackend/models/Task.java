@@ -25,7 +25,7 @@ public class Task {
     private Board board;
 
     @JsonIgnoreProperties("tasks")
-    @ManyToMany(mappedBy = "tasks"/* , cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH} */)
+    @ManyToMany(mappedBy = "tasks", cascade = {CascadeType.REMOVE})
     private Set<User> users;
 
     protected Task() {

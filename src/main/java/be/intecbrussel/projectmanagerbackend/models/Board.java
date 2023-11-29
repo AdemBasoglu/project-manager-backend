@@ -2,6 +2,7 @@ package be.intecbrussel.projectmanagerbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +20,10 @@ public class Board {
     private Project project;
 
     // NOTE - Bidirectional declarations can be redundant
-    // @JsonIgnoreProperties("board")
-    // @OneToMany(fetch = FetchType.EAGER, mappedBy = "board")
-    // private List<Task> task;
+    @JsonIgnoreProperties("board")
+    @Transient
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "board", cascade = CascadeType.REMOVE)
+    private List<Task> task;
 
     protected Board() {
     }
@@ -29,7 +31,7 @@ public class Board {
     public Board(String name, Project project) {
         this.name = name;
         this.project = project;
-        // this.task = new ArrayList<>();
+        this.task = new ArrayList<>();
     }
 
     public Long getId() {
@@ -52,11 +54,11 @@ public class Board {
         this.project = project;
     }
 
-    // public List<Task> getTask() {
-    //     return task;
-    // }
-    //
-    // public void setTask(List<Task> task) {
-    //     this.task = task;
-    // }
+    public List<Task> getTask() {
+        return task;
+    }
+
+    public void setTask(List<Task> task) {
+        this.task = task;
+    }
 }

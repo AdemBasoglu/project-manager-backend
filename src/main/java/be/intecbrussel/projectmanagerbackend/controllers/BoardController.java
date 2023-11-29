@@ -1,9 +1,8 @@
 package be.intecbrussel.projectmanagerbackend.controllers;
 
 import be.intecbrussel.projectmanagerbackend.models.Board;
-import be.intecbrussel.projectmanagerbackend.models.Project;
 import be.intecbrussel.projectmanagerbackend.services.impl.BoardServiceImpl;
-import be.intecbrussel.projectmanagerbackend.services.impl.ProjectServiceImpl;
+import be.intecbrussel.projectmanagerbackend.services.impl.TaskServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,16 +12,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/board")
 public class BoardController {
     private final BoardServiceImpl boardService;
+    private final TaskServiceImpl taskService;
 
 
     @Autowired
-    public BoardController(BoardServiceImpl boardService) {
+    public BoardController(BoardServiceImpl boardService, TaskServiceImpl taskService) {
         this.boardService = boardService;
-
+        this.taskService = taskService;
     }
 
 
-    //POSTMAN OK
+    // POSTMAN OK
 
     @PostMapping("/add")
     public ResponseEntity<Board> addBoard(
@@ -33,7 +33,7 @@ public class BoardController {
 
     }
 
-    //POSTMAN OK
+    // POSTMAN OK
 
     @GetMapping("/get/{id}")
     public ResponseEntity<Board> getBoardById(@PathVariable Long id) {
@@ -50,7 +50,12 @@ public class BoardController {
 
     }
 
-
+    @DeleteMapping("/delete/{boardId}")
+    public void deleteBoard(
+            @PathVariable("boardId") Long boardId) {
+        taskService.deleteAllByBoardId(boardId);
+        boardService.deleteBoard(boardId);
+    }
 }
 
 
