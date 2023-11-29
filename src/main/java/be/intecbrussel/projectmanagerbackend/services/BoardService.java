@@ -10,7 +10,7 @@ public interface BoardService {
 
     Board getBoardById(Long id);
 
-    Board updateBoard(Board board);
+    Board updateBoard(Board board,long projectId);
 
     void deleteBoard(Long id);
 

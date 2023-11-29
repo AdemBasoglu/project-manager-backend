@@ -20,16 +20,16 @@ public class Project {
     private Set<User> users;
 
     // NOTE - Bidirectional declarations can be redundant
-    @JsonIgnoreProperties("project")
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
-    private List<Board> boards;
+    // @JsonIgnoreProperties("project")
+    // @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
+    // private List<Board> boards;
 
     protected Project() {
     }
 
     public Project(String name, User user) {
         this.name = name;
-        this.boards = new ArrayList<>();
+        // this.boards = new ArrayList<>();
         this.users = new HashSet<>();
         users.add(user);
     }
@@ -54,11 +54,11 @@ public class Project {
         this.users = users;
     }
 
-    public List<Board> getBoards() {
-        return boards;
-    }
-
-    public void setBoards(List<Board> boards) {
-        this.boards = boards;
-    }
+    // public List<Board> getBoards() {
+    //     return boards;
+    // }
+    //
+    // public void setBoards(List<Board> boards) {
+    //     this.boards = boards;
+    // }
 }
