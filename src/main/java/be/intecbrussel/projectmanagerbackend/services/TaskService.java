@@ -19,11 +19,10 @@ public interface TaskService {
     Task addUserToTask(Long taskID, String email);
 
 
-    Task changeBoard(Long boardID) {
-
-    }
+    Task changeBoard(Long boardID);
 
     void deleteTask(Long taskID);
 
+    void deleteAllByBoardId(Long boardID);
 
 }

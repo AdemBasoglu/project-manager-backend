@@ -57,4 +57,9 @@ public class TaskController {
     public void deleteTask(@PathVariable("taskID") Long taskID) {
         taskService.deleteTask(taskID);
     }
+
+    @DeleteMapping("delete-by-board/{boardID}")
+    public void deleteTaskByBoard(@PathVariable("boardID") Long boardID) {
+        taskService.deleteAllByBoardId(boardID);
+    }
 }

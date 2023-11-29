@@ -13,8 +13,6 @@ import java.util.List;
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
-
-
     private ProjectServiceImpl projectService;
 
     public BoardServiceImpl(BoardRepository boardRepository, ProjectServiceImpl projectService) {
@@ -52,8 +50,11 @@ public class BoardServiceImpl implements BoardService {
 
 
     @Override
-    public void deleteBoard(Long id) {
+    public void deleteBoard(Long boardId) {
+        Board foundBoard = boardRepository.findById(boardId)
+                .orElseThrow(() -> new DataNotFoundException("board", "id", boardId.toString()));
 
+        boardRepository.delete(foundBoard);
     }
 
     @Override
