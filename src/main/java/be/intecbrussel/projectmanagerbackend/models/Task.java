@@ -1,6 +1,7 @@
 package be.intecbrussel.projectmanagerbackend.models;
 
 import be.intecbrussel.projectmanagerbackend.models.enums.TaskLabel;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -22,7 +23,8 @@ public class Task {
 
     @ManyToOne
     private Board board;
-
+    
+    @JsonIgnoreProperties("tasks")
     @ManyToMany(mappedBy = "tasks")
     private Set<User> users;
 
