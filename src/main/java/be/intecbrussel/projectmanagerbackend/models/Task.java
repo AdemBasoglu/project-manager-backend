@@ -23,9 +23,9 @@ public class Task {
 
     @ManyToOne
     private Board board;
-    
+
     @JsonIgnoreProperties("tasks")
-    @ManyToMany(mappedBy = "tasks")
+    @ManyToMany(mappedBy = "tasks"/* , cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH} */)
     private Set<User> users;
 
     protected Task() {

@@ -16,6 +16,7 @@ public class Project {
 
     private String name;
 
+    @JsonIgnoreProperties("projects")
     @ManyToMany(mappedBy = "projects")
     private Set<User> users;
 
