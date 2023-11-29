@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Project {
@@ -14,8 +16,8 @@ public class Project {
 
     private String name;
 
-    @OneToOne
-    private User user;
+    @ManyToMany(mappedBy = "projects")
+    private Set<User> users;
 
     // NOTE - Bidirectional declarations can be redundant
     @JsonIgnoreProperties("project")
@@ -27,14 +29,15 @@ public class Project {
 
     public Project(String name, User user) {
         this.name = name;
-        this.user = user;
         this.boards = new ArrayList<>();
+        this.users = new HashSet<>();
+        users.add(user);
     }
 
     public Long getId() {
         return id;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -43,12 +46,12 @@ public class Project {
         this.name = name;
     }
 
-    public User getUser() {
-        return user;
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     public List<Board> getBoards() {
