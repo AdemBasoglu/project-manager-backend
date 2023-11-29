@@ -32,6 +32,7 @@ public class Project {
         // this.boards = new ArrayList<>();
         this.users = new HashSet<>();
         users.add(user);
+        // System.out.println("USER ADDED");
     }
 
     public Long getId() {

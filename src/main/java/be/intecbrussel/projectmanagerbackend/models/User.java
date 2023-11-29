@@ -2,6 +2,7 @@ package be.intecbrussel.projectmanagerbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
@@ -66,13 +67,13 @@ public class User {
         this.lastName = lastName;
     }
 
-    // public Set<Project> getProjects() {
-    //     return projects;
-    // }
-    //
-    // public void setProjects(Set<Project> projects) {
-    //     this.projects = projects;
-    // }
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
+    }
 
     public Set<Task> getTasks() {
         return tasks;
