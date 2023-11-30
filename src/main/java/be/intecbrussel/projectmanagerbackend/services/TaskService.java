@@ -6,22 +6,21 @@ import be.intecbrussel.projectmanagerbackend.models.dto.TaskDto;
 import java.util.List;
 
 public interface TaskService {
+
     Task addTask(TaskDto taskDto, Long boardId);
 
     Task getTask(Long taskId);
 
-    List<Task> getTaskByUser();
+    List<Task> getTaskByUserEmail(String email);
 
-    List<Task> getTaskByBoard();
+    List<Task> getTaskByBoardId(Long boardId);
 
     Task updateTask(Task task, Long taskId);
 
     Task addUserToTask(Long taskId, String email);
 
-    Task changeBoard(Long boardId);
-
+    Task changeBoard(Long taskId, Long boardId);
+    
     void deleteTask(Long taskId);
-
-    void deleteAllByBoardId(Long boardId);
 
 }

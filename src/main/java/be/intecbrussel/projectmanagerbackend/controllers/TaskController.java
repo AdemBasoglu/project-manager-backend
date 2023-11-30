@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/task")
 public class TaskController {
@@ -34,6 +36,20 @@ public class TaskController {
         return ResponseEntity.ok(task);
     }
 
+    @GetMapping("/get-by-user/{email}")
+    public ResponseEntity<List<Task>> getTaskByUserEmail(@PathVariable("email") String email) {
+
+        List<Task> taskByUser = taskService.getTaskByUserEmail(email);
+        return ResponseEntity.ok(taskByUser);
+    }
+
+    @GetMapping("/get-by-board/{boardId}")
+    public ResponseEntity<List<Task>> getTaskByUserEmail(@PathVariable("boardId") Long boardId) {
+
+        List<Task> taskByUser = taskService.getTaskByBoardId(boardId);
+        return ResponseEntity.ok(taskByUser);
+    }
+
     @PutMapping("update/{taskId}")
     public ResponseEntity<Task> updateTask(@RequestBody Task task,
                                            @PathVariable("taskId") Long taskId) {
@@ -50,15 +66,26 @@ public class TaskController {
         return ResponseEntity.ok(task);
     }
 
+    @PutMapping("/change-board")
+    public ResponseEntity<Task> changeBoard(@RequestParam("taskId") Long taskId,
+                                            @RequestParam("boardId") Long boardId) {
+        
+        Task task = taskService.changeBoard(taskId, boardId);
+        return ResponseEntity.ok(task);
+    }
+
+    @PutMapping("/add-board")
+    public ResponseEntity<Task> addToBoard(@RequestParam("taskId") Long taskId,
+                                           @RequestParam("boardId") Long boardId) {
+
+        Task task = taskService.addToBoard(taskId, boardId);
+        return ResponseEntity.ok(task);
+    }
+
     @DeleteMapping("/delete/{taskId}")
     public void deleteTask(@PathVariable("taskId") Long taskId) {
 
         taskService.deleteTask(taskId);
     }
 
-    @DeleteMapping("/delete-by-board/{boardId}")
-    public void deleteTaskByBoard(@PathVariable("boardId") Long boardId) {
-
-        taskService.deleteAllByBoardId(boardId);
-    }
 }

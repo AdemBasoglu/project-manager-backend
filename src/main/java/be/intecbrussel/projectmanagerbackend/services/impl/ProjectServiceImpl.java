@@ -60,6 +60,18 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Project addUserToProject(Long projectId, String email) {
+        Project project = getProject(projectId);
+        User user = userService.getUser(email);
+
+        user.getProjects().add(project);
+        project.getUsers().add(user);
+        
+        projectRepository.save(project);
+        return project;
+    }
+
+    @Override
     public void deleteProject(Long projectId) {
 
         Project foundProject = getProject(projectId);

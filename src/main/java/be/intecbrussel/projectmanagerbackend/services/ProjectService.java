@@ -14,6 +14,8 @@ public interface ProjectService {
 
     Project updateProject(String newName, Long projectId);
 
+    Project addUserToProject(Long projectId, String email);
+
     void deleteProject(Long id);
 
 }

@@ -50,6 +50,14 @@ public class ProjectController {
         return ResponseEntity.ok(updatedProject);
     }
 
+    @PutMapping("/update/add-user")
+    public ResponseEntity<Project> addUserToProject(@RequestParam("id") Long projectId,
+                                                    @RequestParam("email") String email) {
+
+        Project updatedProject = projectService.addUserToProject(projectId, email);
+        return ResponseEntity.ok(updatedProject);
+    }
+
     @DeleteMapping("/delete/{projectId}")
     public void deleteProject(@PathVariable Long projectId) {
 

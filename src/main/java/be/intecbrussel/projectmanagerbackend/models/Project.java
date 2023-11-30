@@ -16,7 +16,7 @@ public class Project {
     private String name;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "projects")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "projects")
     private Set<User> users;
 
     // NOTE - Bidirectional declarations can be redundant

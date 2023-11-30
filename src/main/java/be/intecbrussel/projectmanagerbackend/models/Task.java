@@ -26,7 +26,7 @@ public class Task {
     private Board board;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "tasks")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "tasks")
     private Set<User> users;
 
     protected Task() {

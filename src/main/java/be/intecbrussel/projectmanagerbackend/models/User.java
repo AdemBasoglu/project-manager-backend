@@ -2,10 +2,7 @@ package be.intecbrussel.projectmanagerbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,7 +21,7 @@ public class User {
     private Set<Project> projects;
 
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Task> tasks;
 
     protected User() {

@@ -1,6 +1,7 @@
 package be.intecbrussel.projectmanagerbackend.controllers;
 
 import be.intecbrussel.projectmanagerbackend.models.Board;
+import be.intecbrussel.projectmanagerbackend.models.Task;
 import be.intecbrussel.projectmanagerbackend.services.impl.BoardServiceImpl;
 import be.intecbrussel.projectmanagerbackend.services.impl.TaskServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +56,13 @@ public class BoardController {
 
     @DeleteMapping("/delete/{boardId}")
     public void deleteBoard(@PathVariable("boardId") Long boardId) {
+        Board board = boardService.getBoard(boardId);
 
-        taskService.deleteAllByBoardId(boardId);
+        List<Task> tasks = board.getTasks();
+        for (Task task : tasks) {
+            taskService.deleteTask(task.getId());
+        }
+        
         boardService.deleteBoard(boardId);
     }
 }

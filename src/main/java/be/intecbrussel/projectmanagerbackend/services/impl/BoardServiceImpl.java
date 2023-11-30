@@ -51,7 +51,7 @@ public class BoardServiceImpl implements BoardService {
                 .orElseThrow(() -> new DataNotFoundException("Board", "Id", boardId.toString()));
 
         foundBoard.setName(board.getName());
-        foundBoard.setTask(board.getTask());
+        foundBoard.setTasks(board.getTasks());
         foundBoard.setProject(board.getProject());
 
         return boardRepository.save(foundBoard);

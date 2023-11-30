@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -40,18 +41,22 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task getTask(Long taskId) {
-        return taskRepository.findById(taskId).orElseThrow(
-                () -> new DataNotFoundException("Task", "Id", taskId.toString()));
+        return taskRepository.findById(taskId)
+                .orElseThrow(() -> new DataNotFoundException("Task", "Id", taskId.toString()));
     }
 
     @Override
-    public List<Task> getTaskByUser() {
-        return null;
+    public List<Task> getTaskByUserEmail(String email) {
+        User user = userService.getUser(email);
+        Set<Task> tasks = user.getTasks();
+        return new ArrayList<>(tasks);
     }
 
     @Override
-    public List<Task> getTaskByBoard() {
-        return null;
+    public List<Task> getTaskByBoardId(Long boardId) {
+        Board board = boardService.getBoard(boardId);
+        List<Task> tasks = board.getTasks();
+        return new ArrayList<>(tasks);
     }
 
     @Override
@@ -85,8 +90,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task changeBoard(Long boardId) {
-        return null;
+    public Task changeBoard(Long taskId, Long boardId) {
+        Board board = boardService.getBoard(boardId);
+        Task task = getTask(taskId);
+        task.setBoard(board);
+
+        return task;
     }
 
     @Override
@@ -101,8 +110,4 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.deleteById(taskId);
     }
 
-    @Override
-    public void deleteAllByBoardId(Long boardId) {
-        taskRepository.deleteAllByBoardId(boardId);
-    }
 }
