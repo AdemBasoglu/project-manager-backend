@@ -1,5 +1,6 @@
 package be.intecbrussel.projectmanagerbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -15,12 +16,12 @@ public class User {
     private String firstName;
     private String lastName;
 
-    @JsonIgnoreProperties("users")
+    @JsonIgnore
     @ManyToMany
     private Set<Project> projects;
 
-    @JsonIgnoreProperties("users")
-    @ManyToMany
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Task> tasks;
 
     protected User() {

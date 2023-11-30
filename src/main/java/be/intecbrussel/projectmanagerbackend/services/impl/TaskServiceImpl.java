@@ -1,55 +1,113 @@
 package be.intecbrussel.projectmanagerbackend.services.impl;
 
+import be.intecbrussel.projectmanagerbackend.exceptions.DataNotFoundException;
 import be.intecbrussel.projectmanagerbackend.models.Board;
 import be.intecbrussel.projectmanagerbackend.models.Task;
+import be.intecbrussel.projectmanagerbackend.models.User;
 import be.intecbrussel.projectmanagerbackend.models.dto.TaskDto;
 import be.intecbrussel.projectmanagerbackend.repositories.TaskRepository;
-import be.intecbrussel.projectmanagerbackend.services.BoardService;
 import be.intecbrussel.projectmanagerbackend.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
+@Transactional
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final BoardServiceImpl boardService;
+    private final UserServiceImpl userService;
 
     @Autowired
-    public TaskServiceImpl(TaskRepository taskRepository, BoardServiceImpl boardService) {
+    public TaskServiceImpl(TaskRepository taskRepository, BoardServiceImpl boardService, UserServiceImpl userService) {
         this.taskRepository = taskRepository;
         this.boardService = boardService;
+        this.userService = userService;
+    }
+
+
+    @Override
+    public Task addTask(TaskDto taskDto, Long boardId) {
+
+        Board foundBoard = boardService.getBoard(boardId);
+        Task task = new Task(taskDto.name(), taskDto.description(), foundBoard);
+
+        return taskRepository.save(task);
     }
 
     @Override
-    public Task addTask(TaskDto taskDto, Long boardID) {
-        Board board = boardService.getBoardById(boardID);
-        return null;
+    public Task getTask(Long taskId) {
+        return taskRepository.findById(taskId)
+                .orElseThrow(() -> new DataNotFoundException("Task", "Id", taskId.toString()));
     }
 
     @Override
-    public Task getTask() {
-        return null;
+    public List<Task> getTaskByUserEmail(String email) {
+        User user = userService.getUser(email);
+        Set<Task> tasks = user.getTasks();
+        return new ArrayList<>(tasks);
     }
 
     @Override
-    public List<Task> getTaskByUser() {
-        return null;
+    public List<Task> getTaskByBoardId(Long boardId) {
+        Board board = boardService.getBoard(boardId);
+        List<Task> tasks = board.getTasks();
+        return new ArrayList<>(tasks);
     }
 
     @Override
-    public List<Task> getTaskByBoard() {
-        return null;
+    public Task updateTask(Task task, Long taskId) {
+        Task foundTask = taskRepository.findById(taskId).orElseThrow(
+                () -> new DataNotFoundException("Task", "Id", taskId.toString()));
+
+        foundTask.setName(task.getName());
+        foundTask.setBoard(task.getBoard());
+        foundTask.setUsers(task.getUsers());
+        foundTask.setDescription(task.getDescription());
+        foundTask.setLabel(task.getLabel());
+
+        // for (User user : task.getUsers()) {
+        //     userService.updateUser(user, user.getEmail());
+        // }
+
+        return taskRepository.save(foundTask);
     }
 
     @Override
-    public Task updateTask(Task task, Long taskID) {
-        return null;
+    public Task addUserToTask(Long taskId, String email) {
+        Task foundTask = taskRepository.findById(taskId)
+                .orElseThrow(() -> new DataNotFoundException("Task", "Id", taskId.toString()));
+
+        User foundUser = userService.getUser(email);
+        foundUser.getTasks().add(foundTask);
+        foundTask.getUsers().add(foundUser);
+
+        return foundTask;
     }
 
     @Override
-    public void deleteTask(Long taskID) {
+    public Task changeBoard(Long taskId, Long boardId) {
+        Board board = boardService.getBoard(boardId);
+        Task task = getTask(taskId);
+        task.setBoard(board);
 
+        return task;
     }
+
+    @Override
+    public void deleteTask(Long taskId) {
+        Task task = getTask(taskId);
+        Set<User> users = task.getUsers();
+
+        for (User user : users) {
+            user.getTasks().remove(task);
+        }
+
+        taskRepository.deleteById(taskId);
+    }
+
 }
