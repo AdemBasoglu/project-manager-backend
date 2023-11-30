@@ -37,9 +37,9 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody User user) {
-        userService.addUser(user);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<User> register(@RequestBody User user) {
+        user =  userService.addUser(user);
+        return ResponseEntity.ok(user);
 
     }
 }

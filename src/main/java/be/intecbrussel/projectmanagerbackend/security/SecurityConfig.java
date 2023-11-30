@@ -33,7 +33,7 @@ public class SecurityConfig {
             throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
-        System.out.println("authenticationManagerBuilder = " + authenticationManagerBuilder);
+
 
         return authenticationManagerBuilder.build();
     }
