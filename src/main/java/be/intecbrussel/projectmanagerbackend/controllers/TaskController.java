@@ -69,16 +69,8 @@ public class TaskController {
     @PutMapping("/change-board")
     public ResponseEntity<Task> changeBoard(@RequestParam("taskId") Long taskId,
                                             @RequestParam("boardId") Long boardId) {
-        
+
         Task task = taskService.changeBoard(taskId, boardId);
-        return ResponseEntity.ok(task);
-    }
-
-    @PutMapping("/add-board")
-    public ResponseEntity<Task> addToBoard(@RequestParam("taskId") Long taskId,
-                                           @RequestParam("boardId") Long boardId) {
-
-        Task task = taskService.addToBoard(taskId, boardId);
         return ResponseEntity.ok(task);
     }
 
