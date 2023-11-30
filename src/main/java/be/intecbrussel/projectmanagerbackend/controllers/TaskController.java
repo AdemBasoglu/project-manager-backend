@@ -7,59 +7,77 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/task")
 public class TaskController {
     private final TaskServiceImpl taskService;
 
-
     @Autowired
     public TaskController(TaskServiceImpl taskService) {
+
         this.taskService = taskService;
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Task> addTask(
-            @RequestBody TaskDto taskDto, @RequestParam("boardID") Long boardID) {
-        Task task = taskService.addTask(taskDto, boardID);
+    public ResponseEntity<Task> addTask(@RequestBody TaskDto taskDto,
+                                        @RequestParam("boardId") Long boardId) {
 
+        Task task = taskService.addTask(taskDto, boardId);
         return ResponseEntity.ok(task);
     }
 
 
-    @GetMapping("/get/{taskID}")
-    public ResponseEntity<Task> getTask(@PathVariable("taskID") Long taskID) {
-        Task task = taskService.getTask(taskID);
+    @GetMapping("/get/{taskId}")
+    public ResponseEntity<Task> getTask(@PathVariable("taskId") Long taskId) {
 
+        Task task = taskService.getTask(taskId);
         return ResponseEntity.ok(task);
     }
 
-    @PutMapping("update/{taskID}")
-    public ResponseEntity<Task> updateTask(
-            @RequestBody Task task,
-            @PathVariable("taskID") Long taskID
-    ) {
-        Task updatedTask = taskService.updateTask(task, taskID);
+    @GetMapping("/get-by-user/{email}")
+    public ResponseEntity<List<Task>> getTaskByUserEmail(@PathVariable("email") String email) {
 
+        List<Task> taskByUser = taskService.getTaskByUserEmail(email);
+        return ResponseEntity.ok(taskByUser);
+    }
+
+    @GetMapping("/get-by-board/{boardId}")
+    public ResponseEntity<List<Task>> getTaskByUserEmail(@PathVariable("boardId") Long boardId) {
+
+        List<Task> taskByUser = taskService.getTaskByBoardId(boardId);
+        return ResponseEntity.ok(taskByUser);
+    }
+
+    @PutMapping("update/{taskId}")
+    public ResponseEntity<Task> updateTask(@RequestBody Task task,
+                                           @PathVariable("taskId") Long taskId) {
+
+        Task updatedTask = taskService.updateTask(task, taskId);
         return ResponseEntity.ok(updatedTask);
     }
 
     @PutMapping("/add-user")
-    public ResponseEntity<Task> addUserToTask(
-            @RequestParam("taskID") Long taskID,
-            @RequestParam("email") String email) {
-        Task task = taskService.addUserToTask(taskID, email);
+    public ResponseEntity<Task> addUserToTask(@RequestParam("taskId") Long taskId,
+                                              @RequestParam("email") String email) {
 
+        Task task = taskService.addUserToTask(taskId, email);
         return ResponseEntity.ok(task);
     }
 
-    @DeleteMapping("delete/{taskID}")
-    public void deleteTask(@PathVariable("taskID") Long taskID) {
-        taskService.deleteTask(taskID);
+    @PutMapping("/change-board")
+    public ResponseEntity<Task> changeBoard(@RequestParam("taskId") Long taskId,
+                                            @RequestParam("boardId") Long boardId) {
+
+        Task task = taskService.changeBoard(taskId, boardId);
+        return ResponseEntity.ok(task);
     }
 
-    @DeleteMapping("delete-by-board/{boardID}")
-    public void deleteTaskByBoard(@PathVariable("boardID") Long boardID) {
-        taskService.deleteAllByBoardId(boardID);
+    @DeleteMapping("/delete/{taskId}")
+    public void deleteTask(@PathVariable("taskId") Long taskId) {
+
+        taskService.deleteTask(taskId);
     }
+
 }

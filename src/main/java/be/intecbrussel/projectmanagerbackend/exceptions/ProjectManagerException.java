@@ -1,7 +1,5 @@
 package be.intecbrussel.projectmanagerbackend.exceptions;
 
-import org.springframework.http.HttpStatus;
-
 public class ProjectManagerException extends RuntimeException {
 
     public ProjectManagerException() {

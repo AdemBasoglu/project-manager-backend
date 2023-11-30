@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -29,33 +31,38 @@ public class TaskServiceImpl implements TaskService {
 
 
     @Override
-    public Task addTask(TaskDto taskDto, Long boardID) {
-        Board foundBoard = boardService.getBoardById(boardID);
+    public Task addTask(TaskDto taskDto, Long boardId) {
+
+        Board foundBoard = boardService.getBoard(boardId);
         Task task = new Task(taskDto.name(), taskDto.description(), foundBoard);
 
         return taskRepository.save(task);
     }
 
     @Override
-    public Task getTask(Long taskID) {
-        return taskRepository.findById(taskID).orElseThrow(
-                () -> new DataNotFoundException("Task", "ID", taskID.toString()));
+    public Task getTask(Long taskId) {
+        return taskRepository.findById(taskId)
+                .orElseThrow(() -> new DataNotFoundException("Task", "Id", taskId.toString()));
     }
 
     @Override
-    public List<Task> getTaskByUser() {
-        return null;
+    public List<Task> getTaskByUserEmail(String email) {
+        User user = userService.getUser(email);
+        Set<Task> tasks = user.getTasks();
+        return new ArrayList<>(tasks);
     }
 
     @Override
-    public List<Task> getTaskByBoard() {
-        return null;
+    public List<Task> getTaskByBoardId(Long boardId) {
+        Board board = boardService.getBoard(boardId);
+        List<Task> tasks = board.getTasks();
+        return new ArrayList<>(tasks);
     }
 
     @Override
-    public Task updateTask(Task task, Long taskID) {
-        Task foundTask = taskRepository.findById(taskID).orElseThrow(
-                () -> new DataNotFoundException("Task", "ID", taskID.toString()));
+    public Task updateTask(Task task, Long taskId) {
+        Task foundTask = taskRepository.findById(taskId).orElseThrow(
+                () -> new DataNotFoundException("Task", "Id", taskId.toString()));
 
         foundTask.setName(task.getName());
         foundTask.setBoard(task.getBoard());
@@ -71,28 +78,36 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task addUserToTask(Long taskID, String email) {
-        Task foundTask = taskRepository.findById(taskID).orElseThrow(
-                () -> new DataNotFoundException("Task", "ID", taskID.toString()));
+    public Task addUserToTask(Long taskId, String email) {
+        Task foundTask = taskRepository.findById(taskId)
+                .orElseThrow(() -> new DataNotFoundException("Task", "Id", taskId.toString()));
 
-        User foundUser = userService.findByEmail(email);
+        User foundUser = userService.getUser(email);
         foundUser.getTasks().add(foundTask);
+        foundTask.getUsers().add(foundUser);
 
-        return null;
+        return foundTask;
     }
 
     @Override
-    public Task changeBoard(Long boardID) {
-        return null;
+    public Task changeBoard(Long taskId, Long boardId) {
+        Board board = boardService.getBoard(boardId);
+        Task task = getTask(taskId);
+        task.setBoard(board);
+
+        return task;
     }
 
     @Override
-    public void deleteTask(Long taskID) {
-        taskRepository.deleteById(taskID);
+    public void deleteTask(Long taskId) {
+        Task task = getTask(taskId);
+        Set<User> users = task.getUsers();
+
+        for (User user : users) {
+            user.getTasks().remove(task);
+        }
+
+        taskRepository.deleteById(taskId);
     }
 
-    @Override
-    public void deleteAllByBoardId(Long boardID) {
-        taskRepository.deleteAllByBoardId(boardID);
-    }
 }

@@ -16,35 +16,52 @@ public class ProjectController {
 
     @Autowired
     public ProjectController(ProjectServiceImpl projectService) {
-        this.projectService = projectService;
 
+        this.projectService = projectService;
     }
-@PostMapping("/add-project")
-    public ResponseEntity<Project> addProject(@RequestBody Project project) {
-        project = projectService.addProject(project);
+
+    @PostMapping("/add")
+    public ResponseEntity<Project> addProject(@RequestParam("projectName") String projectName,
+                                              @RequestParam("userEmail") String email) {
+
+        Project project = projectService.addProject(projectName, email);
         return new ResponseEntity<>(project, HttpStatus.CREATED);
     }
 
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<Project> getProject(@PathVariable("id") long projectId) {
-        Project foundProject = projectService.getProjectById(projectId);
+    @GetMapping("/get/{projectId}")
+    public ResponseEntity<Project> getProject(@PathVariable Long projectId) {
+
+        Project foundProject = projectService.getProject(projectId);
         return ResponseEntity.ok(foundProject);
     }
 
     @GetMapping("/get-all")
     public ResponseEntity<List<Project>> getAllProject() {
-        List<Project> foundProjects = projectService.getAllProject();
+
+        List<Project> foundProjects = projectService.getAllProjects();
         return ResponseEntity.ok(foundProjects);
     }
 
-    @PutMapping("/update-project/{id}")
-    public ResponseEntity<Project> updateProject(@RequestBody Project project, long id) {
-        Project updatedProject = projectService.updateProject(project, id);
+    @PutMapping("/update")
+    public ResponseEntity<Project> updateProject(@RequestParam("newName") String newName,
+                                                 @RequestParam("id") Long projectId) {
+        Project updatedProject = projectService.updateProject(newName, projectId);
         return ResponseEntity.ok(updatedProject);
     }
-    @DeleteMapping("/delete-project/{id}")
-    public ResponseEntity<String> deleteProject(@PathVariable("id") long Id) {
-        projectService.deleteProject(Id);
-        return ResponseEntity.ok("Project is deleted succesfully with id : " + Id);
-    }}
+
+    @PutMapping("/update/add-user")
+    public ResponseEntity<Project> addUserToProject(@RequestParam("id") Long projectId,
+                                                    @RequestParam("email") String email) {
+
+        Project updatedProject = projectService.addUserToProject(projectId, email);
+        return ResponseEntity.ok(updatedProject);
+    }
+
+    @DeleteMapping("/delete/{projectId}")
+    public void deleteProject(@PathVariable Long projectId) {
+
+        projectService.deleteProject(projectId);
+    }
+
+}

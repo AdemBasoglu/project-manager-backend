@@ -1,7 +1,5 @@
 package be.intecbrussel.projectmanagerbackend.models.dto;
 
-import java.time.LocalDate;
-
 public record TaskDto(
         String name,
         String description

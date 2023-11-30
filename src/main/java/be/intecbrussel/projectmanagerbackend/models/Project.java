@@ -1,11 +1,10 @@
 package be.intecbrussel.projectmanagerbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,8 +15,8 @@ public class Project {
 
     private String name;
 
-    @JsonIgnoreProperties("projects")
-    @ManyToMany(mappedBy = "projects")
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "projects")
     private Set<User> users;
 
     // NOTE - Bidirectional declarations can be redundant
@@ -33,6 +32,7 @@ public class Project {
         // this.boards = new ArrayList<>();
         this.users = new HashSet<>();
         users.add(user);
+        // System.out.println("USER ADDED");
     }
 
     public Long getId() {
