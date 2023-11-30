@@ -2,6 +2,8 @@ package be.intecbrussel.projectmanagerbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +14,11 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // NOTE - @NotBlank
     private String name;
 
     // @JsonIgnoreProperties("boards")
+    @NotNull
     @ManyToOne
     private Project project;
 

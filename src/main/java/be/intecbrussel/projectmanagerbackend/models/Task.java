@@ -15,8 +15,10 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // NOTE - @NotNull @NotEmpty
     private String name;
     private String description;
+    // NOTE - Verify what is the conversion to JSON
     private LocalDate createdDate;
 
     @Enumerated(EnumType.STRING)
