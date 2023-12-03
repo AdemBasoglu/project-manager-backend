@@ -1,9 +1,13 @@
 package be.intecbrussel.projectmanagerbackend.controllers;
 
 import be.intecbrussel.projectmanagerbackend.models.User;
+import be.intecbrussel.projectmanagerbackend.models.dto.LoginRequest;
+import be.intecbrussel.projectmanagerbackend.models.dto.LoginResponse;
 import be.intecbrussel.projectmanagerbackend.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -44,4 +48,6 @@ public class UserController {
 
         userService.deleteUser(email);
     }
+
+
 }
