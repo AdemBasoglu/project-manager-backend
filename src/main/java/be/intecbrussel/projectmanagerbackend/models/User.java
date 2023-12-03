@@ -16,11 +16,11 @@ public class User {
     private String firstName;
     private String lastName;
 
-    @JsonIgnore
+    // @JsonIgnore
     @ManyToMany
     private Set<Project> projects;
 
-    @JsonIgnore
+    // @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Task> tasks;
 
