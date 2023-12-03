@@ -45,13 +45,13 @@ public class ProjectController {
 
     @PutMapping("/update")
     public ResponseEntity<Project> updateProject(@RequestParam("newName") String newName,
-                                                 @RequestParam("id") Long projectId) {
+                                                 @RequestParam("projectId") Long projectId) {
         Project updatedProject = projectService.updateProject(newName, projectId);
         return ResponseEntity.ok(updatedProject);
     }
 
-    @PutMapping("/update/add-user")
-    public ResponseEntity<Project> addUserToProject(@RequestParam("id") Long projectId,
+    @PutMapping("/add-user")
+    public ResponseEntity<Project> addUserToProject(@RequestParam("projectId") Long projectId,
                                                     @RequestParam("email") String email) {
 
         Project updatedProject = projectService.addUserToProject(projectId, email);

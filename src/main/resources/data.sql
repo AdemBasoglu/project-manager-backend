@@ -1,6 +1,7 @@
 -- USER
 insert into user (email, first_name, last_name, password)
-values ('maxim@intec.be', 'Maxim', 'Baraliuc', '1q2w3e4r');
+values ('maxim@intec.be', 'Maxim', 'Baraliuc', '$2a$10$.o9Gz5ngMzZB23iHgQtPn.mNngs7Z/vhSi.j6Z1hQk7.k9PANWFBW');
+
 
 insert into user (email, first_name, last_name, password)
 values ('ilias@intec.be', 'Ilias', 'Marzak', '1q2w3e4r');
