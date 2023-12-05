@@ -4,7 +4,7 @@ values ('maxim@intec.be', 'Maxim', 'Baraliuc', '$2a$10$.o9Gz5ngMzZB23iHgQtPn.mNn
 
 
 insert into user (email, first_name, last_name, password)
-values ('ilias@intec.be', 'Ilias', 'Marzak', '1q2w3e4r');
+values ('ilias@intec.be', 'Ilias', 'Marzak', '$2a$10$.o9Gz5ngMzZB23iHgQtPn.mNngs7Z/vhSi.j6Z1hQk7.k9PANWFBW');
 
 insert into user (email, first_name, last_name, password)
 values ('adem@intec.be', 'Adem', 'Basoglu', '1q2w3e4r');
@@ -73,6 +73,10 @@ values (1, 'maxim@intec.be');
 
 insert into user_projects (projects_id, users_email)
 values (2, 'maxim@intec.be');
+
+insert into user_projects (projects_id, users_email)
+values (3, 'maxim@intec.be');
+
 
 insert into user_projects (projects_id, users_email)
 values (1, 'ilias@intec.be');

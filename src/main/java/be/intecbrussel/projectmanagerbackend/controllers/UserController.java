@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -18,7 +20,7 @@ public class UserController {
 
     @Autowired
     public UserController(UserServiceImpl userService) {
-        
+
         this.userService = userService;
     }
 
@@ -36,6 +38,13 @@ public class UserController {
         return ResponseEntity.ok(foundUser);
     }
 
+    @GetMapping("/get-by-project/{projectId}")
+    public ResponseEntity<List<String>> getAllUserEmailsByProject(@PathVariable Long projectId) {
+
+        List<String> foundUsers = userService.getAllUserEmailsByProject(projectId);
+        return ResponseEntity.ok(foundUsers);
+    }
+    
     @PutMapping("/update/{email}")
     public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable String email) {
 
@@ -48,6 +57,5 @@ public class UserController {
 
         userService.deleteUser(email);
     }
-
 
 }
