@@ -17,6 +17,7 @@ public class Project {
 
     // NOTE - @NotNull @NotEmpty
     private String name;
+    private String descritption;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "projects")
@@ -28,6 +29,12 @@ public class Project {
     // private List<Board> boards;
 
     protected Project() {
+    }
+
+    public Project(String name, String descritption, Set<User> users) {
+        this.name = name;
+        this.descritption = descritption;
+        this.users = users;
     }
 
     public Project(String name, User user) {
@@ -56,6 +63,14 @@ public class Project {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public String getDescritption() {
+        return descritption;
+    }
+
+    public void setDescritption(String descritption) {
+        this.descritption = descritption;
     }
 
     // public List<Board> getBoards() {
