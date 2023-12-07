@@ -55,6 +55,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<String> getAllUserEmailsByTask(Long taskId) {
+        return userRepository.findAllUserEmailsByTaskId(taskId);
+    }
+
+    @Override
     public User updateUser(User user, String email) {
 
         User foundUser = userRepository.findByEmail(email)

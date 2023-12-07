@@ -12,6 +12,8 @@ public interface UserService {
 
     List<String> getAllUserEmailsByProject(Long projectId);
 
+    List<String> getAllUserEmailsByTask(Long taskId);
+
     User updateUser(User user, String email);
 
     void deleteUser(String email);
