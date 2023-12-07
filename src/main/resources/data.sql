@@ -33,23 +33,23 @@ insert into board (project_id, name) -- 3
 values (2, 'DONE');
 
 -- TASK
-insert into task (board_id, description, name, label)
-values (1, 'Description missing...', 'Create database', 'DEFAULT');
-
-insert into task (board_id, description, name, label)
-values (1, 'Description missing...', 'Initialize project', 'RED');
+insert into task (created_date, board_id, description, name, label)
+values ('2023-12-01', 1, 'Description missing...', 'Create database', 'DEFAULT');
 
 insert into task (created_date, board_id, description, name, label)
-values (null, 2, 'Description missing...', 'Create services', 'DEFAULT');
+values ('2023-12-06', 1, 'Description missing...', 'Initialize project', 'RED');
 
 insert into task (created_date, board_id, description, name, label)
-values (null, 2, 'Description missing...', 'Analise business logic', 'GREEN');
+values ('2023-12-03', 2, 'Description missing...', 'Create services', 'DEFAULT');
 
 insert into task (created_date, board_id, description, name, label)
-values (null, 2, 'Description missing...', 'Choose frontend tech', 'PURPLE');
+values ('2023-12-01', 2, 'Description missing...', 'Analise business logic', 'GREEN');
 
 insert into task (created_date, board_id, description, name, label)
-values (null, 3, 'Description missing...', 'Assemble dev team', 'ORANGE');
+values ('2023-12-03', 2, 'Description missing...', 'Choose frontend tech', 'PURPLE');
+
+insert into task (created_date, board_id, description, name, label)
+values ('2023-12-05', 3, 'Description missing...', 'Assemble dev team', 'ORANGE');
 
 -- USER_TASKS
 insert into user_tasks (tasks_id, users_email)
