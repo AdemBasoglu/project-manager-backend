@@ -44,7 +44,14 @@ public class UserController {
         List<String> foundUsers = userService.getAllUserEmailsByProject(projectId);
         return ResponseEntity.ok(foundUsers);
     }
-    
+
+    @GetMapping("/get-by-task/{taskId}")
+    public ResponseEntity<List<String>> getAllUserEmailsByTask(@PathVariable Long taskId) {
+
+        List<String> foundUsers = userService.getAllUserEmailsByTask(taskId);
+        return ResponseEntity.ok(foundUsers);
+    }
+
     @PutMapping("/update/{email}")
     public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable String email) {
 
