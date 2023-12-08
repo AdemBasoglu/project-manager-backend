@@ -15,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -48,6 +50,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<String> getAllUserEmailsByProject(Long projectId) {
+        return userRepository.findAllUserEmailsByProjectId(projectId);
+    }
+
+    @Override
+    public List<String> getAllUserEmailsByTask(Long taskId) {
+        return userRepository.findAllUserEmailsByTaskId(taskId);
+    }
+
+    @Override
     public User updateUser(User user, String email) {
 
         User foundUser = userRepository.findByEmail(email)
@@ -63,16 +75,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String email) {
-        
+
         getUser(email);
         userRepository.deleteById(email);
     }
+
     public LoginResponse login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         String email = authentication.getName();
 
-        User user = new User(email, "" );
+        User user = new User(email, "");
         String token = jwtUtil.createToken(user);
 
         return new LoginResponse(email, token);
