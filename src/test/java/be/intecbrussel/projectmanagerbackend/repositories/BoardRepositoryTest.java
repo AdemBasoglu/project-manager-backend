@@ -8,9 +8,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-
 import java.util.Optional;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
@@ -81,7 +79,8 @@ class BoardRepositoryTest {
         //given
         boardRepository.save(board);
         //when
-        Board findBoard = boardRepository.findById(board.getId()).get(); findBoard.setName("Updated Board name");
+        Board findBoard = boardRepository.findById(board.getId()).get();
+        findBoard.setName("Updated Board name");
         Board updatedBoard = boardRepository.save(findBoard);
         //then
         assertThat(updatedBoard).isNotNull();
