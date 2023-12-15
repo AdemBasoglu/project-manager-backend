@@ -64,4 +64,14 @@ public class Board {
     public void setTasks(List<Task> task) {
         this.tasks = task;
     }
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", project=" + project +
+                ", tasks=" + tasks +
+                '}';
+    }
 }
