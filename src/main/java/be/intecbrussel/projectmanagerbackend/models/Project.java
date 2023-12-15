@@ -73,11 +73,13 @@ public class Project {
         this.descritption = descritption;
     }
 
-    // public List<Board> getBoards() {
-    //     return boards;
-    // }
-    //
-    // public void setBoards(List<Board> boards) {
-    //     this.boards = boards;
-    // }
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", descritption='" + descritption + '\'' +
+                ", users=" + users +
+                '}';
+    }
 }
