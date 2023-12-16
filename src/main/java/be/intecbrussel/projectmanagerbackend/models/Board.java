@@ -65,13 +65,5 @@ public class Board {
         this.tasks = task;
     }
 
-    @Override
-    public String toString() {
-        return "Board{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", project=" + project +
-                ", tasks=" + tasks +
-                '}';
-    }
+
 }
