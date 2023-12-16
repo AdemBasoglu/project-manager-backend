@@ -94,6 +94,19 @@ public class Task {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", createdDate=" + createdDate +
+                ", label=" + label +
+                ", board=" + board +
+                ", users=" + users +
+                '}';
+    }
 }
 
 
