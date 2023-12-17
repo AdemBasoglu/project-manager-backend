@@ -84,4 +84,17 @@ public class User {
     public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
     }
+
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", projects=" + projects +
+                ", tasks=" + tasks +
+                '}';
+    }
 }
