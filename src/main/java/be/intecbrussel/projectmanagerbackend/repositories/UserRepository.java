@@ -13,11 +13,11 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     Optional<User> findByEmail(String email);
 
-    @Query(value = "select users_email from user_projects up where up.projects_id = :ID",
+    @Query(value = "select users_email from app_user_projects up where up.projects_id = :ID",
             nativeQuery = true)
     List<String> findAllUserEmailsByProjectId(@Param("ID") Long projectId);
 
-    @Query(value = "select users_email from user_tasks up where up.tasks_id = :ID",
+    @Query(value = "select users_email from app_user_tasks up where up.tasks_id = :ID",
             nativeQuery = true)
     List<String> findAllUserEmailsByTaskId(@Param("ID") Long taskId);
 

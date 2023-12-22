@@ -22,7 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TaskRepositoryTest {
     private final TaskRepository taskRepository;
     private final TestEntityManager testEntityManager;
-    private Task task;
+    private Task task1;
+    private Task task2;
     private User user;
     private Board board;
     private Project project;
@@ -38,29 +39,35 @@ class TaskRepositoryTest {
         user = new User("a@b.com", "1234");
         project = new Project("new project", user);
         board = new Board("new board", project);
-        task = new Task("new task", "new", board);
+        task1 = new Task("first task", "first", board);
+        task2 = new Task("second task", "second", board);
 
     }
 
     @AfterEach
     void tearDown() {
-        task = null;
+        taskRepository.deleteAll();
     }
 
     @Test
     @Order(1)
     public void givenTaskId_whenFindByTask_thenReturnTaskObj() {
         //given
-        Task savedTask = taskRepository.save(task);
-
+        testEntityManager.merge(user);
+        testEntityManager.merge(project);
+        testEntityManager.merge(board);
+        testEntityManager.merge(task1);
+        testEntityManager.merge(task2);
+        testEntityManager.flush();
+        testEntityManager.clear();
         //when
-        Optional<Task> foundTaskOptional = taskRepository.findById(savedTask.getId());
+        Optional<Task> foundTaskOptional = taskRepository.findById(task1.getId());
 
         //then
         assertTrue(foundTaskOptional.isPresent());
         Task foundTask = foundTaskOptional.get();
         assertThat(foundTask).isNotNull();
-        assertThat(foundTask.getName()).isEqualTo(task.getName());
+        assertThat(foundTask.getName()).isEqualTo(task1.getName());
         assertThat(foundTask.getBoard().getId()).isEqualTo(board.getId());
     }
 
@@ -68,19 +75,24 @@ class TaskRepositoryTest {
     @Order(2)
     public void givenTaskId_whenFindByTask_thenUpdatedTaskObj() {
         //given
-        Task savedTask = taskRepository.save(task);
-
+        testEntityManager.merge(user);
+        testEntityManager.merge(project);
+        testEntityManager.merge(board);
+        testEntityManager.merge(task1);
+        testEntityManager.merge(task2);
+        testEntityManager.flush();
+        testEntityManager.clear();
         //when
-        Optional<Task> updatedTask = taskRepository.findById(savedTask.getId());
-        updatedTask.ifPresent(p -> p.setName("Updated project"));
-        updatedTask.ifPresent(p -> p.setLabel(TaskLabel.GREEN));
-        updatedTask.ifPresent(p -> p.setDescription("updated description"));
-        System.out.println("updatedTask = " + updatedTask);
+        Task foundTask=taskRepository.findById(task1.getId()).get();
+        foundTask.setName("Updated Task");
+        foundTask.setLabel(TaskLabel.ORANGE);
+        foundTask.setDescription("Updated Task Description");
+        Task updatedTask=taskRepository.save(foundTask);
 
         //then
-        assertThat(updatedTask.stream().filter(s -> s.getName().equals("Updated project")));
-        assertThat(updatedTask.stream().filter(s -> s.getLabel().equals(TaskLabel.GREEN)));
-        assertThat(updatedTask.stream().filter(s -> s.getDescription().equals("Updated description")));
+        assertThat(updatedTask.getName()).isEqualTo("Updated Task");
+        assertThat(updatedTask.getDescription()).isEqualTo("Updated Task Description");
+        assertThat(updatedTask.getLabel()).isEqualTo(TaskLabel.ORANGE);
 
     }
 
@@ -89,12 +101,17 @@ class TaskRepositoryTest {
     @Order(3)
     public void givenTaskId_whenFindByTask_thenDeleteTask() {
         //given
-        Task savedTask = taskRepository.save(task);
+        testEntityManager.merge(user);
+        testEntityManager.merge(project);
+        testEntityManager.merge(board);
+        testEntityManager.merge(task1);
+        testEntityManager.flush();
+        testEntityManager.clear();
 
         //when
-        taskRepository.deleteById(savedTask.getId());
-        Optional<Task> foundTask = taskRepository.findById(savedTask.getId());
-        System.out.println("foundTask = " + foundTask);
+        taskRepository.deleteById(task1.getId());
+        Optional<Task> foundTask = taskRepository.findById(task1.getId());
+
         //then
         assertThat(foundTask).isEmpty();
     }

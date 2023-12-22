@@ -8,6 +8,8 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+
+import java.util.List;
 import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -17,9 +19,13 @@ class BoardRepositoryTest {
 
     private final BoardRepository boardRepository;
     private final TestEntityManager testEntityManager;
+
     private Board board;
     private User user;
     private Project project;
+    private Board board1;
+    private Board board2;
+
 
     @Autowired
     public BoardRepositoryTest(BoardRepository boardRepository, TestEntityManager testEntityManager) {
@@ -30,15 +36,18 @@ class BoardRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        user = new User("a@b.com", "123");
-        project = new Project("new project", user);
-        board = new Board("new board", project);
+        this.user = new User("a@b.com", "123","adem","Bas");
+        this.project = new Project("new project", user);
+        this.board1 = new Board("new first board", project);
+        this.board2 = new Board("new second board", project);
+
+
     }
 
 
     @AfterEach
     void tearDown() {
-        board = null;
+        boardRepository.deleteAll();
     }
 
     @Test
@@ -46,30 +55,43 @@ class BoardRepositoryTest {
     public void givenBoardId_whenFindByBoard_thenReturnBoardObj() {
 
         //given
-        boardRepository.save(board);
+        testEntityManager.merge(user);
+        testEntityManager.merge(project);
+        testEntityManager.merge(board1);
+        testEntityManager.merge(board2);
+        testEntityManager.flush();
+        testEntityManager.clear();
 
         //when
-        Board foundBoard = boardRepository.findById(board.getId()).get();
+        Board foundBoard = boardRepository.findById(board1.getId()).get();
 
         //then
         assertThat(foundBoard).isNotNull();
+        assertThat(foundBoard.getName()).isEqualTo("new first board");
+        assertThat(foundBoard.getId()).isEqualTo(1L);
+        assertThat(foundBoard.getProject().getName()).isEqualTo("new project");
 
     }
 
     @Test
     @Order(2)
-    public void givenBoardId_whenFindByBoard_thenReturnBoardName() {
+    public void givenProjectId_whenFindAllByBoard_thenReturnBoard() {
 
         //given
-        boardRepository.save(board);
-
+        testEntityManager.merge(user);
+        testEntityManager.merge(project);
+        testEntityManager.merge(board1);
+        testEntityManager.flush();
+        testEntityManager.clear();
 
         //when
-        Board foundBoard = boardRepository.findById(board.getId()).get();
-
+        Board foundBoard = boardRepository.findAllByProjectId(project.getId()).get(0);
 
         //then
-        assertThat(foundBoard.getName()).isEqualTo("new board");
+        assertThat(foundBoard).isNotNull();
+        assertThat(foundBoard.getName()).isEqualTo("new first board");
+        assertThat(foundBoard.getId()).isEqualTo(1L);
+        assertThat(foundBoard.getProject().getName()).isEqualTo("new project");
     }
 
     @Test
@@ -77,11 +99,16 @@ class BoardRepositoryTest {
     public void givenBoardId_whenFindByBoardId_thenReturnUpdatedBoardObj() {
 
         //given
-        boardRepository.save(board);
+        testEntityManager.merge(user);
+        testEntityManager.merge(project);
+        testEntityManager.merge(board1);
+        testEntityManager.flush();
+        testEntityManager.clear();
+
         //when
-        Board findBoard = boardRepository.findById(board.getId()).get();
-        findBoard.setName("Updated Board name");
-        Board updatedBoard = boardRepository.save(findBoard);
+        Board foundBoard = boardRepository.findById(board1.getId()).get();
+        foundBoard.setName("Updated Board name");
+        Board updatedBoard = boardRepository.save(foundBoard);
         //then
         assertThat(updatedBoard).isNotNull();
         assertThat(updatedBoard.getName()).isEqualTo("Updated Board name");
@@ -91,12 +118,16 @@ class BoardRepositoryTest {
     @Order(4)
     public void givenBoardId_whenFindByBoardId_thenReturnEmptyObject() {
         // Given
-        boardRepository.save(board);
+        testEntityManager.merge(user);
+        testEntityManager.merge(project);
+        testEntityManager.merge(board1);
+        testEntityManager.flush();
+        testEntityManager.clear();
 
         // When
-        boardRepository.deleteById(board.getId());
+        boardRepository.deleteById(board1.getId());
 
-        Optional<Board> foundBoard = boardRepository.findById(board.getId());
+        Optional<Board> foundBoard = boardRepository.findById(board1.getId());
 
         // Then
         Assertions.assertThat(foundBoard).isEmpty();

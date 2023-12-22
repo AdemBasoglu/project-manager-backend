@@ -28,21 +28,23 @@ class ProjectRepositoryTest {
 
     @BeforeEach
     void setUp() {
-
         user=new User("a@b.com","12344");
         project=new Project("new project",user);
     }
 
     @AfterEach
     void tearDown() {
-        project=null;
+        projectRepository.deleteAll();
     }
     @Test
     @Order(1)
     public void givenProjectId_whenFindByProject_thenReturnProjectObj() {
 
         //given
-        projectRepository.save(project);
+        testEntityManager.merge(user);
+        testEntityManager.merge(project);
+        testEntityManager.flush();
+        testEntityManager.clear();
 
         //when
         Project foundProject = projectRepository.findById(project.getId()).get();
@@ -57,12 +59,13 @@ class ProjectRepositoryTest {
     public void givenProjectId_whenFindByProject_thenReturnProjectName() {
 
         //given
-        projectRepository.save(project);
-
+        testEntityManager.merge(user);
+        testEntityManager.merge(project);
+        testEntityManager.flush();
+        testEntityManager.clear();
 
         //when
         Project foundProject = projectRepository.findById(project.getId()).get();
-
 
         //then
         assertThat(foundProject.getName()).isEqualTo("new project");
@@ -74,15 +77,12 @@ class ProjectRepositoryTest {
 
         //given
         testEntityManager.merge(user);
+        testEntityManager.merge(project);
         testEntityManager.flush();
         testEntityManager.clear();
 
-        Project projectToBeUpdated = testEntityManager.merge(project);
-        testEntityManager.flush();
-        testEntityManager.clear();
-
-         //when
-        Optional<Project> updatedProject = projectRepository.findById(projectToBeUpdated.getId());
+        //when
+        Optional<Project> updatedProject = projectRepository.findById(project.getId());
         updatedProject.ifPresent(p -> p.setName("Updated project"));
         //then
         assertTrue(updatedProject.isPresent());

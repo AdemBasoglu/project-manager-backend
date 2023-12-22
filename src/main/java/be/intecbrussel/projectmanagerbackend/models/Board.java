@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jdk.jfr.DataAmount;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,33 +39,32 @@ public class Board {
         this.tasks = new ArrayList<>();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
+    public Board(Long id,String name, Project project) {
+        this.name = name;
+        this.project = project;
+        this.id=id;
+        this.tasks = new ArrayList<>();
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
     public void setProject(Project project) {
         this.project = project;
-    }
-
-    public List<Task> getTasks() {
-        return tasks;
     }
 
     public void setTasks(List<Task> task) {
         this.tasks = task;
     }
 
-
+    @Override
+    public String toString() {
+        return "Board{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", project=" + project +
+                ", tasks=" + tasks +
+                '}';
+    }
 }

@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@Transactional
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
+
     private final ProjectServiceImpl projectService;
 
     public BoardServiceImpl(BoardRepository boardRepository, ProjectServiceImpl projectService) {

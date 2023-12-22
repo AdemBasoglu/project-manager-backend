@@ -37,6 +37,14 @@ public class Project {
         this.users = users;
     }
 
+    public Project(Long id, String name, String descritption, User user) {
+        this.id = id;
+        this.name = name;
+        this.descritption = descritption;
+        this.users = new HashSet<>();
+        users.add(user);
+    }
+
     public Project(String name, User user) {
         this.name = name;
         // this.boards = new ArrayList<>();
@@ -48,6 +56,7 @@ public class Project {
     public Long getId() {
         return id;
     }
+    public void setId(Long id) {}
 
     public String getName() {
         return name;
@@ -73,5 +82,13 @@ public class Project {
         this.descritption = descritption;
     }
 
-
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", descritption='" + descritption + '\'' +
+                ", users=" + users +
+                '}';
+    }
 }
